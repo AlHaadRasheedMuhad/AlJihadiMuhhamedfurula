@@ -1,143 +1,387 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ess">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Propuesta de Agencia de Clubs Estudiantiles</title>
-    <style>
-        body {
-            background-color: #09daff;
-            font-family: Georgia, serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #222;
-        }
-        h1 {
-            font-size: 2.2em;
-            margin-bottom: 0.2em;
-        }
-        h2 {
-            color: #1a1a1a;
-            margin-top: 1.5em;
-            border-bottom: 2px solid #333;
-            padding-bottom: 0.3em;
-        }
-        h3 {
-            color: #333;
-            margin-top: 1.2em;
-        }
-        .subtitle {
-            font-style: italic;
-            color: #444;
-            margin-bottom: 2em;
-        }
-        .quote {
-            font-style: italic;
-            border-left: 3px solid #333;
-            padding-left: 1em;
-            margin: 1.5em 0;
-            color: #333;
-        }
-        hr {
-            border: none;
-            border-top: 1px solid #333;
-            margin: 2em 0;
-        }
-        footer {
-            text-align: center;
-            margin-top: 3em;
-            padding-top: 1em;
-            border-top: 1px solid #333;
-            font-size: 0.9em;
-            color: #555;
-        }
-        .salutation {
-            font-size: 1.1em;
-            margin-bottom: 1em;
-        }
-        .closing {
-            margin-top: 2em;
-            font-style: italic;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RESPONSE AND FIXES</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Courier New", Courier, monospace;
+      color: #000;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* These are used by 3 buttons + pseudo-elements */
+    .tb-btn {
+      width: 20px;
+      height: 20px;
+      border: 1px solid white;
+      border-radius: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: white;
+      font-weight: bold;
+      user-select: none;
+    }
+    .tb-btn:active { transform: translateY(1px); }
+    .tb-btn.min { background: linear-gradient(135deg, #7EAED6 0%, #1B72FF 50%, #1655BE 100%); }
+    .tb-btn.max { background: linear-gradient(135deg, #7EAED6 0%, #1B72FF 50%, #1655BE 100%); }
+    .tb-btn.close { background: linear-gradient(135deg, #F1A689 0%, #C0442A 50%, #C2311E 100%); }
+    .tb-btn.close::before { content: '×'; font-size: 16px; }
+    .tb-btn.min::before { content: '−'; font-size: 14px; }
+    .tb-btn.max::before { content: '□'; font-size: 10px; }
+
+    /* These are shared across 5 details blocks */
+    details {
+      background: #f0f0f0;
+      border: 1px solid #000;
+      margin-bottom: 15px;
+    }
+    details summary {
+      padding: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #e0e0e0;
+      border-bottom: 1px solid #000;
+      list-style: none;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details[open] summary { background: #ffff00; }
+    .details-content { padding: 15px; }
+
+    /* Shared across 10 tags */
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border: 1px solid #000;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .tag.problem { background: #ff0000; color: #fff; }
+    .tag.solution { background: #00ff00; color: #000; }
+    .details-content p { margin: 0 0 8px 0; }
+
+    /* Shared across 10 HOSTIA h1s */
+    .wow-container h1 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: "Courier New", Courier, monospace;
+      white-space: nowrap;
+      animation: wowShake 0.6s infinite;
+    }
+    .wow-container h1:nth-child(1) { color: #ff0000; z-index: 10; animation-delay: 0s; }
+    .wow-container h1:nth-child(2) { color: #ff7f00; z-index: 9; top: 2px; left: 2px; animation-delay: 0.05s; }
+    .wow-container h1:nth-child(3) { color: #ffff00; z-index: 8; top: 4px; left: 4px; animation-delay: 0.1s; }
+    .wow-container h1:nth-child(4) { color: #00ff00; z-index: 7; top: 6px; left: 6px; animation-delay: 0.15s; }
+    .wow-container h1:nth-child(5) { color: #0000ff; z-index: 6; top: 8px; left: 8px; animation-delay: 0.2s; }
+    .wow-container h1:nth-child(6) { color: #4b0082; z-index: 5; top: 10px; left: 10px; animation-delay: 0.25s; }
+    .wow-container h1:nth-child(7) { color: #9400d3; z-index: 4; top: 12px; left: 12px; animation-delay: 0.3s; }
+    .wow-container h1:nth-child(8) { color: #ff00ff; z-index: 3; top: 14px; left: 14px; animation-delay: 0.35s; }
+    .wow-container h1:nth-child(9) { color: #00ffff; z-index: 2; top: 16px; left: 16px; animation-delay: 0.4s; }
+    .wow-container h1:nth-child(10) { color: #ff1493; z-index: 1; top: 18px; left: 18px; animation-delay: 0.45s; }
+
+    @keyframes wowShake {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(1px, -2px); }
+      50% { transform: translate(-2px, 1px); }
+      75% { transform: translate(2px, 2px); }
+    }
+
+    @keyframes bounce {
+      0%   { transform: translateY(-100vh); }
+      5%   { transform: translateY(0); }
+      35%  { transform: translateY(-25vh); }
+      50%  { transform: translateY(0); }
+      60%  { transform: translateY(-8vh); }
+      100% { transform: translateY(0); }
+    }
+
+    .bounce-in {
+      animation: bounce 2s ease-out forwards;
+      display: block !important;
+    }
+
+    /* Single-use props that the media query needs to override */
+    .scream { padding: 15px; }
+    .wow-container { height: 55px; }
+
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      .scream { padding: 10px; overflow: hidden; }
+      .wow-container { height: 40px; }
+      .wow-container h1 { font-size: 24px; }
+      .window-box { max-width: 100%; }
+      .footer button { font-size: 14px; width: 100%; max-width: 100%; word-break: break-word; }
+      .details-content { word-break: break-word; }
+    }
+  </style>
 </head>
-<body>
-    <h1>Propuesta de Agencia de Clubs Estudiantiles</h1>
-    <p class="subtitle">Una carta para despertar el potencial dormido de nuestro centro</p>
+<body style="background-color: #123772;">
 
-    <div class="quote">
-        "Como quien cabalga por llanuras que otros no ven todavía."
+<<canvas id="rainCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
+
+<div id="catOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 99999; transform: translateY(-100vh); display: none;">
+  <img src="https://i.ibb.co/zhPyvCWx/040471b742547cc1262ed5b5afed195d-400x400.jpg" alt="fat cat" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+</div>
+
+<div class="content-wrapper" style="min-height: calc(100vh + 150px);">
+
+  <div class="scream" style="background: #ff00ff; color: #ffff00; text-align: center; border: 3px solid #000; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; box-shadow: 5px 5px 0px #000;">
+    <div class="wow-container" style="text-align: center; position: relative; margin: 0 auto;">
+      <figure style="position: relative; margin: 0 auto; width: max-content; height: 100%;">
+        <h1>HOSTIA</h1>
+        <h1>HOSTIA</h1>
+        <h1>HOSTIA</h1>
+        <h1>HOSTIA</h1>
+        <h1>HOSTIA</h1>
+        <h1>HOSTIA</h1>
+        <h1>HOSTIA</h1>
+        <h1>HOSTIA</h1>
+        <h1>HOSTIA</h1>
+        <h1>HOSTIA</h1>
+      </figure>
     </div>
+  </div>
 
-    <hr>
-
-    <p class="salutation">Estimada directora, Buenos días o tardes.</p>
-
-    <p>
-        Soy Samuel y vengo con una idea en la que llevo tiempo cabalgando, como quien cabalga por llanuras que otros no ven todavía. Creo que nuestro centro tiene un potencial dormido para las actividades extraescolares, y quiero ser quien despierte a ese gigante. Ahora mismo no tenemos muchas opciones para los alumnos que quieren hacer algo significativo después de clase. Sé que existe un club de bádminton y me parece genial que alguien tomara la iniciativa de crearlo. Es un buen comienzo, un primer paso valiente. Pero no todo el mundo juega al bádminton, y sería increíble que los estudiantes tuviéramos más caminos por los que caminar según nuestros propios intereses y pasiones.
-    </p>
-
-    <h2>La Propuesta: Una Agencia Dirigida por Estudiantes</h2>
-    <p>
-        Por eso quiero proponer la creación de una agencia dirigida por estudiantes que ayude a otros estudiantes a crear sus propios clubs. Piense en ello como una especie de venta o posada donde las ideas pueden descansar, tomar fuerza y salir de nuevo al mundo convertidas en algo real. Un estudiante viene a nosotros con un sueño, y nosotros le ayudamos a convertirlo en un club que se reúna regularmente después de clase.
-    </p>
-    <p>
-        Nosotros nos encargaríamos de la organización, de acordar los horarios con los profesores y de asegurarnos de que todo funcione correctamente. El objetivo es simple: dejar que los estudiantes forjen las actividades que realmente desean, en lugar de esperar a que sean los profesores quienes lo hagan por ellos.
-    </p>
-
-    <h2>Requisitos para Crear un Club</h2>
-
-    <h3>I. La Propuesta Formal</h3>
-    <p>
-        Para crear un club a través de nuestra agencia, un estudiante tendría que cumplir algunos requisitos. Primero, debe venir a nosotros con una propuesta formal escrita. Esta propuesta debe estar escrita a mano con un bolígrafo de tinta indeleble en dos hojas con al menos 20 líneas de texto en hojas A4. Debe explicar claramente por qué quiere crear este club, en qué actividades consistirá y por qué es importante para él y para los demás. Creemos que este requisito demuestra un compromiso real y ayuda a los estudiantes a pensar bien sus ideas antes de lanzarse a la aventura.
-    </p>
-
-    <h3>II. Los Miembros Fundadores</h3>
-    <p>
-        Segundo, el estudiante debe venir con al menos cuatro personas más que quieran unirse al club. Esto es importante porque un club necesita miembros para existir. No puede ser solo la idea de una persona sin nadie con quien compartirla. Estas cuatro personas deben estar genuinamente interesadas y dispuestas a asistir a las reuniones regularmente. Guardaremos los registros de todos los clubs y sus miembros en la secretaría, para que todo esté organizado y sea oficial, como un libro de caballería donde quedan escritas las gestas de cada uno.
-    </p>
-
-    <h3>III. Coordinación con el Profesorado</h3>
-    <p>
-        También trabajaríamos estrechamente con los profesores para determinar a qué horas los estudiantes pueden quedarse en el centro. Esto dependería de la disponibilidad del profesorado y de la normativa del centro, que respetamos completamente. Nuestra agencia actuaría como puente entre estudiantes y profesorado, asegurándonos de que todos estén informados y de que nadie se vea sobrecargado. No queremos molinos de viento, queremos cosas reales y posibles.
-    </p>
-
-    <h2>Consideraciones Logísticas</h2>
-    <p>
-        Sé que todavía hay algunos aspectos logísticos que debemos resolver. Por ejemplo, algunos estudiantes podrían tener dificultades para volver a casa si se quedan más tiempo por las actividades del club. El transporte público no funciona para todo el mundo y no quiero que nadie se quede fuera por problemas de transporte. Se me ocurrió que quizá podríamos organizar algún tipo de servicio de transporte para los estudiantes que lo necesiten. Entiendo que esto podría ser complicado, pero quería mencionarlo porque la inclusión me importa, y un caballero andante no deja a nadie atrás.
-    </p>
-
-    <h2>Visión y Conclusión</h2>
-    <p>
-        En general, creo que esta agencia podría transformar la cultura de nuestro centro. Los estudiantes estaríamos más implicados, más conectados y más motivados. Aprenderíamos liderazgo, organización y trabajo en equipo haciendo algo que nos importa de verdad. Y lo mejor es que pone a los estudiantes al mando de su propia aventura, con la estructura justa para que todo funcione bien, sin caer en locuras imposibles.
-    </p>
-
-    <div class="quote">
-        "Un caballero andante no deja a nadie atrás."
+  <div class="window-box" style="background: #fff; border: 2px solid #000; margin-bottom: 25px; box-shadow: 5px 5px 0px #000; overflow: hidden;">
+    <div class="title-bar" style="background: linear-gradient(to bottom, #4094ff 0%, #0056e4 13%, #0056e4 71%, #16428b 100%); height: 30px; display: flex; align-items: center; justify-content: space-between; padding: 0 5px; border-bottom: 2px solid #000; position: relative;">
+      <div class="title-bar-text" style="color: white; font-weight: bold; font-size: 14px; text-shadow: 1px 1px #10397E; padding-left: 5px;">SITUACION</div>
+      <div class="title-bar-controls" style="display: flex; gap: 2px;">
+        <div class="tb-btn min" title="Minimize"></div>
+        <div class="tb-btn max" title="Maximize"></div>
+        <div class="tb-btn close" title="Close"></div>
+      </div>
     </div>
+    <div class="window-body" style="padding: 15px; line-height: 1.5;">
+      <p>Se esta fuiendo todo a la mierda!</p>
+    </div>
+  </div>
 
-    <p class="closing">
-        Me encantaría tener la oportunidad de hablar de esto con usted y conocer su opinión. Gracias por dedicarle su tiempo.
-    </p>
+  <div class="section-title" style="background: #00ff00; display: inline-block; padding: 5px 15px; border: 2px solid #000; font-weight: bold; margin-bottom: 10px; box-shadow: 3px 3px 0px #000;">PROBLEMAS & SOLUCIONES</div>
 
-    <hr>
-    <div id="b" style="width:25px;height:25px;border-radius:50%;background:black;cursor:pointer"></div>
+  <details>
+    <summary>PROBLEMA:</summary>
+    <div class="details-content">
+      <span class="tag problem">PUTA MIERDA TIO</span>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <span class="tag solution">FIX</span>
+      <p>Rizz</p>
+      <p style="font-size: 12px; color: #444;">skibidi</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>PROBLEMA:</summary>
+    <div class="details-content">
+      <span class="tag problem">PUTA MIERDA TIO</span>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <span class="tag solution">FIX</span>
+      <p>Rizz</p>
+      <p style="font-size: 12px; color: #444;">skibidi</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>PROBLEMA:</summary>
+    <div class="details-content">
+      <span class="tag problem">PUTA MIERDA TIO</span>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <span class="tag solution">FIX</span>
+      <p>Rizz</p>
+      <p style="font-size: 12px; color: #444;">skibidi</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>PROBLEMA:</summary>
+    <div class="details-content">
+      <span class="tag problem">PUTA MIERDA TIO</span>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <span class="tag solution">FIX</span>
+      <p>Rizz</p>
+      <p style="font-size: 12px; color: #444;">skibidi</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>PROBLEMA:</summary>
+    <div class="details-content">
+      <span class="tag problem">PUTA MIERDA TIO</span>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+      <span class="tag solution">FIX</span>
+      <p>Rizz</p>
+      <p style="font-size: 12px; color: #444;">skibidi</p>
+    </div>
+  </details>
+
+</div>
+
+<div class="footer" style="margin-top: 40px; text-align: center; border-top: 2px dashed #000; padding-top: 15px; font-size: 12px; padding-bottom: 20px;">
+  <p><b><h2>me gusta la vida pero la gente se cree mejor que yo y otros</h2></b></p>
+  <button onclick="fatCat()" style="margin-top:10px; padding:8px 16px; font-family:inherit; font-weight:bold; border:2px solid #000; background:#ff00ff; color:#ffff00; cursor:pointer; box-shadow:3px 3px 0 #000;">Me La Suda Por Completo Tronco!!!!</button>
+</div>
+
 <script>
-let c=0,t;
-document.getElementById('b').onclick=function(){
-  c++;
-  if(c===2){open('HawkTuah.html');c=0;clearTimeout(t);}
-  else{t=setTimeout(()=>c=0,300);}
-}
+  function fatCat() {
+    const overlay = document.getElementById('catOverlay');
+    overlay.style.display = 'block';
+    overlay.classList.add('bounce-in');
+  }
+
+  const CAT_IMAGES = [
+    'https://i.ibb.co/DgVwbs0h/catangry.png',
+    'https://i.ibb.co/9mBkGbLV/rivakittycat.jpg',
+    'https://i.ibb.co/6RP955sX/litterofcats.jpg',
+    'https://i.ibb.co/HR88tPP/lillykittycat.jpg',
+    'https://i.ibb.co/bMvYY7mC/hydroscatstwo.jpg',
+    'https://i.ibb.co/4Z0LZJxQ/hydroandcat.jpg',
+    'https://i.ibb.co/j9c4QYGx/gizmokitty.jpg',
+    'https://i.ibb.co/spNyWmky/catsandsofa.jpg',
+    'https://i.ibb.co/1fXy3ZC6/catfamily.jpg',
+    'https://i.ibb.co/4ZWqbp8c/Zeus.jpg',
+    'https://i.ibb.co/YF4DSfGF/Zeusund-Herkules.jpg',
+    'https://i.ibb.co/tPMyjnHg/5678.jpg',
+    'https://i.ibb.co/mCBmgWvz/5702.jpg',
+    'https://i.ibb.co/fYx5bXZp/6444.jpg',
+    'https://i.ibb.co/d01QsxrB/cica.jpg',
+    'https://i.ibb.co/YFZ2fpGt/rockcat.jpg',
+    'https://i.ibb.co/WvGfMrnR/theeeve.jpg',
+    'https://i.ibb.co/CKs7YMxv/catloaf.jpg',
+    'https://i.ibb.co/TBRyqB53/tacicuska.png',
+    'https://i.ibb.co/LDCWmY96/tiny.jpg',
+    'https://i.ibb.co/zWddWrVz/twobros.jpg',
+    'https://i.ibb.co/LzrCSPb9/eeve.jpg',
+  ];
+
+  const SPIN_IMAGES = [
+    'https://i.ibb.co/yn91XLWm/blunt-smoke-mlg-hitmarker-transparent-10.png',
+    'https://i.ibb.co/CsmLm3WT/snoop-dogg-PNG25.png'
+  ];
+
+  const CONFIG = {
+    catDropCount: 80,
+    spinDropCount: 70,
+    minSize: 40,
+    maxSize: 150,
+    minSpeed: 5,
+    maxSpeed: 12,
+    rainDuration: 1000000000,
+  };
+
+  const canvas = document.getElementById('rainCanvas');
+  const ctx = canvas.getContext('2d');
+  let raining = false;
+  let catDrops = [];
+  let spinDrops = [];
+
+  const catLoaded = CAT_IMAGES.map(src => {
+    const img = new Image();
+    img.src = src;
+    return img;
+  });
+
+  const spinLoaded = SPIN_IMAGES.map(src => {
+    const img = new Image();
+    img.src = src;
+    return img;
+  });
+
+  class CatDrop {
+    constructor() { this.reset(true); }
+    reset(isFirstSpawn = false) {
+      this.size = Math.random() * (CONFIG.maxSize - CONFIG.minSize) + CONFIG.minSize;
+      this.x = Math.random() * canvas.width;
+      this.y = isFirstSpawn ? Math.random() * -canvas.height : -this.size;
+      this.speed = Math.random() * (CONFIG.maxSpeed - CONFIG.minSpeed) + CONFIG.minSpeed;
+      this.img = catLoaded[Math.floor(Math.random() * catLoaded.length)];
+    }
+    update() {
+      this.y += this.speed;
+      if (this.y > canvas.height) this.reset();
+    }
+    draw() {
+      ctx.drawImage(this.img, this.x, this.y, this.size, this.size);
+    }
+  }
+
+  class SpinDrop {
+    constructor() { this.reset(true); }
+    reset(isFirstSpawn = false) {
+      this.size = Math.random() * (CONFIG.maxSize - CONFIG.minSize) + CONFIG.minSize;
+      this.x = Math.random() * canvas.width;
+      this.y = isFirstSpawn ? Math.random() * -canvas.height : -this.size;
+      this.speed = Math.random() * (CONFIG.maxSpeed - CONFIG.minSpeed) + CONFIG.minSpeed;
+      this.img = spinLoaded[Math.floor(Math.random() * spinLoaded.length)];
+      this.rotation = 0;
+      this.spinDirection = Math.random() > 0.5 ? 1 : -1;
+      this.spinSpeed = Math.random() * 0.05 + 0.02;
+    }
+    update() {
+      this.y += this.speed;
+      this.rotation += this.spinSpeed * this.spinDirection;
+      if (this.y > canvas.height) this.reset();
+    }
+    draw() {
+      ctx.save();
+      ctx.translate(this.x + this.size / 2, this.y + this.size / 2);
+      ctx.rotate(this.rotation);
+      ctx.drawImage(this.img, -this.size / 2, -this.size / 2, this.size, this.size);
+      ctx.restore();
+    }
+  }
+
+  function initCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function animate() {
+    if (!raining) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < catDrops.length; i++) {
+      catDrops[i].update();
+      catDrops[i].draw();
+    }
+    for (let i = 0; i < spinDrops.length; i++) {
+      spinDrops[i].update();
+      spinDrops[i].draw();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  function rainCats() {
+    if (raining) return;
+    raining = true;
+    initCanvas();
+    catDrops = Array.from({ length: CONFIG.catDropCount }, () => new CatDrop());
+    spinDrops = Array.from({ length: CONFIG.spinDropCount }, () => new SpinDrop());
+    animate();
+    setTimeout(() => {
+      raining = false;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }, CONFIG.rainDuration);
+  }
+
+  window.onload = () => {
+    setTimeout(() => { rainCats(); }, 1000);
+  };
+
+  window.addEventListener('resize', initCanvas);
 </script>
-    
-    
-    <footer>
-        <p><strong>Atentamente,</strong></p>
-        <p><em>Samuel</em></p>
-    </footer>
 
 </body>
 </html>
