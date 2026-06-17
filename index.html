@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Putas Gratis</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -143,9 +144,616 @@
       .footer button { font-size: 14px; width: 100%; max-width: 100%; word-break: break-word; }
       .details-content { word-break: break-word; }
     }
+
+
+        .desktop-icon {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 75px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 50;
+      user-select: none;
+    }
+    .desktop-icon .icon-img {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #7EAED6 0%, #1B72FF 50%, #1655BE 100%);
+      border-radius: 4px;
+      margin: 0 auto 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      border: 1px solid #4a90d9;
+      box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    .desktop-icon .icon-label {
+      color: white;
+      font-family: Tahoma, sans-serif;
+      font-size: 11px;
+      text-shadow: 1px 1px 1px black;
+      padding: 1px 2px;
+    }
+    .desktop-icon:hover .icon-label {
+      background: #316AC5;
+      border: 1px dotted white;
+      margin: -1px;
+    }
+    .window {
+      position: absolute;
+      width: 950px;
+      height: 750px;
+      background-color: #091E89;
+      overflow: hidden;
+      border-radius: 7px 7px 0 0;
+      z-index: 100;
+      top: 5%;
+      left: 15%;
+      display: none;
+      box-sizing: border-box;
+      min-width: 200px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    }
+    .resize-e, .resize-w {
+      position: absolute;
+      width: 10px;
+      height: 190px;
+      top: 5px;
+    }
+    .resize-w { left: -5px; cursor: w-resize; }
+    .resize-e { right: -5px; cursor: e-resize; }
+    .resize-n, .resize-s {
+      position: absolute;
+      width: calc(100% - 10px);
+      height: 10px;
+      left: 5px;
+    }
+    .resize-s { bottom: -5px; cursor: s-resize; }
+    .resize-n { top: -5px; cursor: n-resize; }
+    .resize-ne, .resize-nw, .resize-se, .resize-sw {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+    }
+    .resize-ne { cursor: ne-resize; top: -5px; right: 0px; }
+    .resize-sw { cursor: sw-resize; bottom: -5px; left: -5px; }
+    .resize-nw { cursor: nw-resize; top: -5px; left: -5px; }
+    .resize-se { cursor: se-resize; bottom: -5px; right: 0px; }
+    .title-bar {
+      width: 100%;
+      height: 35px;
+      background: linear-gradient(to bottom, #4094ff 0%, #0056e4 13%, #0056e4 71%, #16428b 100%);
+      box-sizing: border-box;
+      position: relative;
+    }
+    .title-bar .title-bar-title {
+      position: absolute;
+      top: 7.5px;
+      left: 7.5px;
+      color: white;
+      text-shadow: 1px 1px #10397E;
+      font-size: 15px;
+      pointer-events: none;
+      font-family: Tahoma, sans-serif;
+    }
+    .title-bar .title-bar-close, .title-bar .title-bar-max, .title-bar .title-bar-min {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 5px;
+      right: 5px;
+      border-radius: 2px;
+      border: 1px solid white;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+    .title-bar .title-bar-close {
+      background: linear-gradient(135deg, #F1A689 0%, #C0442A 50%, #C2311E 100%);
+    }
+    .title-bar-close:before, .title-bar-close:after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 2px;
+      background-color: white;
+      border-radius: 2px;
+      top: 9px;
+      box-shadow: 0 0 2px 0 #ccc;
+    }
+    .title-bar-close:before { transform: rotate(45deg); left: 3px; }
+    .title-bar-close:after { transform: rotate(-45deg); right: 3px; }
+    .title-bar .title-bar-max, .title-bar .title-bar-min {
+      background: linear-gradient(135deg, #7EAED6 0%, #1B72FF 50%, #1655BE 100%);
+    }
+    .title-bar .title-bar-max { right: 30px; }
+    .title-bar .title-bar-min { right: 55px; }
+    .title-bar-max:after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 8px;
+      border: 1px solid white;
+      border-top: 3px solid white;
+      top: 4px;
+      left: 4px;
+    }
+    .title-bar-min:after {
+      content: '';
+      position: absolute;
+      width: 8px;
+      border-bottom: 2px solid white;
+      bottom: 4px;
+      left: 4px;
+    }
+    .window .content {
+      position: absolute;
+      box-sizing: border-box;
+      padding: 0;
+      height: calc(100% - 35px);
+      width: 100%;
+      left: 0;
+      bottom: 0;
+      background-color: white;
+      overflow: hidden;
+    }
+    /* Website Language Selector */
+    .web-lang-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .web-lang-bar span {
+      font-size: 11px;
+      color: #666;
+      font-family: Tahoma, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .web-lang-flag {
+      width: 24px;
+      height: 16px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 2px;
+      transition: all 0.2s ease;
+      position: relative;
+      display: inline-block;
+    }
+    .web-lang-flag:hover {
+      transform: scale(1.15);
+      border-color: #999;
+    }
+    .web-lang-flag.active {
+      border-color: #0099ff;
+      box-shadow: 0 0 6px 1px rgba(0, 153, 255, 0.5), 0 0 12px 2px rgba(0, 153, 255, 0.2);
+    }
+    /* CSS Flags */
+    .flag-es {
+      background: linear-gradient(to bottom, #AA151B 33%, #F1BF00 33%, #F1BF00 66%, #AA151B 66%);
+    }
+    .flag-gb {
+      background: #012169;
+      position: relative;
+    }
+    .flag-gb::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        linear-gradient(to bottom, transparent 40%, #C8102E 40%, #C8102E 60%, transparent 60%),
+        linear-gradient(to right, transparent 40%, #C8102E 40%, #C8102E 60%, transparent 60%);
+    }
+    .flag-gb::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: 
+        linear-gradient(135deg, transparent 45%, #C8102E 45%, #C8102E 55%, transparent 55%),
+        linear-gradient(-135deg, transparent 45%, #C8102E 45%, #C8102E 55%, transparent 55%);
+    }
+    .ie-browser {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      font-family: Tahoma, sans-serif;
+      background: white;
+    }
+    .ie-address-bar {
+      height: 32px;
+      background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+      display: flex;
+      align-items: center;
+      padding: 0 6px;
+      gap: 4px;
+      border-bottom: 1px solid #a0a0a0;
+      flex-shrink: 0;
+    }
+    .ie-address-bar button {
+      width: 24px;
+      height: 22px;
+      border: 1px solid #b0b0b0;
+      background: linear-gradient(to bottom, #fff, #e0e0e0);
+      cursor: pointer;
+      font-size: 12px;
+      flex-shrink: 0;
+      font-family: Tahoma, sans-serif;
+    }
+    .ie-address-bar label {
+      font-size: 11px;
+      color: #333;
+      flex-shrink: 0;
+      font-family: Tahoma, sans-serif;
+    }
+    .ie-address-bar .address-field {
+      flex: 1;
+      height: 24px;
+      border: 1px solid #7a9cd3;
+      background: white;
+      display: flex;
+      align-items: center;
+      padding: 0 6px;
+      font-size: 12px;
+      color: #000;
+      min-width: 0;
+      overflow: hidden;
+      font-family: Tahoma, sans-serif;
+    }
+    .ie-toolbar {
+      height: 36px;
+      background: linear-gradient(to bottom, #f8f8f8, #e0e0e0);
+      display: flex;
+      align-items: center;
+      padding: 0 6px;
+      gap: 4px;
+      border-bottom: 1px solid #b0b0b0;
+      flex-shrink: 0;
+    }
+    .ie-toolbar button {
+      height: 24px;
+      padding: 0 10px;
+      border: 1px solid #b0b0b0;
+      background: linear-gradient(to bottom, #fff, #e8e8e8);
+      font-size: 11px;
+      cursor: pointer;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: Tahoma, sans-serif;
+    }
+    .ie-toolbar .divider {
+      width: 1px;
+      height: 20px;
+      background: #b0b0b0;
+      margin: 0 4px;
+    }
+    .ie-tabs {
+      height: 28px;
+      background: #e8e8e8;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 4px;
+      border-bottom: 2px solid #7a9cd3;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+    .ie-tab {
+      min-width: 140px;
+      max-width: 200px;
+      height: 24px;
+      background: linear-gradient(to bottom, #f0f0ff, #d0d0e0);
+      border: 1px solid #7a9cd3;
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      font-size: 11px;
+      cursor: pointer;
+      position: relative;
+      font-family: Tahoma, sans-serif;
+    }
+    .ie-tab.active {
+      height: 26px;
+      background: white;
+      margin-bottom: -2px;
+      z-index: 2;
+      font-weight: bold;
+    }
+    .ie-tab img {
+      width: 14px;
+      height: 14px;
+      margin-right: 6px;
+    }
+    .ie-tab .close-tab {
+      margin-left: auto;
+      width: 14px;
+      text-align: center;
+      font-size: 10px;
+      color: #666;
+      cursor: pointer;
+    }
+    .ie-content {
+      flex: 1;
+      background: white;
+      overflow-y: auto;
+      min-height: 0;
+      padding: 0;
+      color: black;
+      font-family: Arial, sans-serif;
+    }
+    .ie-status-bar {
+      height: 22px;
+      background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+      border-top: 1px solid #b0b0b0;
+      display: flex;
+      align-items: center;
+      padding: 0 6px;
+      font-size: 11px;
+      color: #333;
+      flex-shrink: 0;
+      font-family: Tahoma, sans-serif;
+    }
+    .ie-status-bar .status-left {
+      flex: 1;
+    }
+    .ie-status-bar .status-right {
+      display: flex;
+      gap: 12px;
+    }
+    .essay-content {
+      background-color: #09daff;
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      color: #222;
+      min-height: 100%;
+      box-sizing: border-box;
+    }
+    .essay-content h1 {
+      font-size: 2.2em;
+      margin-bottom: 0.2em;
+    }
+    .essay-content h2 {
+      color: #1a1a1a;
+      margin-top: 1.5em;
+      border-bottom: 2px solid #333;
+      padding-bottom: 0.3em;
+    }
+    .essay-content h3 {
+      color: #333;
+      margin-top: 1.2em;
+    }
+    .essay-content .subtitle {
+      font-style: italic;
+      color: #444;
+      margin-bottom: 2em;
+    }
+    .essay-content .quote {
+      font-style: italic;
+      border-left: 3px solid #333;
+      padding-left: 1em;
+      margin: 1.5em 0;
+      color: #333;
+    }
+    .essay-content .stat-box {
+      background: rgba(0,0,0,0.05);
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 16px;
+      margin: 1em 0;
+      text-align: center;
+    }
+    .essay-content .stat-number {
+      font-size: 2em;
+      font-weight: bold;
+      color: #c0392b;
+    }
+    .essay-content .stat-label {
+      font-size: 0.85em;
+      color: #444;
+    }
+    .essay-content .disaster-box {
+      background: rgba(0,0,0,0.05);
+      border-left: 4px solid #c0392b;
+      padding: 16px;
+      margin: 1em 0;
+    }
+    .essay-content .disaster-box h4 {
+      margin: 0 0 4px 0;
+      color: #1a1a1a;
+    }
+    .essay-content .disaster-meta {
+      font-family: monospace;
+      font-size: 0.8em;
+      color: #c0392b;
+      margin-bottom: 8px;
+    }
+    .essay-content .disaster-box p {
+      margin: 0;
+      font-size: 0.95em;
+    }
+    .essay-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+      font-size: 0.9em;
+    }
+    .essay-content th, .essay-content td {
+      border: 1px solid #333;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    .essay-content th {
+      background: rgba(0,0,0,0.08);
+      font-weight: bold;
+    }
+    .essay-content .highlight {
+      color: #c0392b;
+      font-weight: bold;
+    }
+    .essay-content hr {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 2em 0;
+    }
+    .essay-content footer {
+      text-align: center;
+      margin-top: 3em;
+      padding-top: 1em;
+      border-top: 1px solid #333;
+      font-size: 0.9em;
+      color: #555;
+    }
+    .essay-content .disclaimer {
+      font-size: 0.8em;
+      color: #666;
+      margin-top: 2em;
+    }
+
+    .ukflag {
+  background: #00257d;
+  width: 200px;
+  height: 238px;
+  z-index: 990;
+}
+
+.horedstr {
+  background: #ff0000;
+  position: absolute;
+  margin-top: 50px;
+  width: 200px;
+  height: 20px;
+  z-index: 999;
+}
+
+.horedstrsh {
+  background: #fff;
+  position: absolute;
+  margin-top: 45px;
+  width: 200px;
+  height: 30px;
+  z-index: 993;
+}
+
+.veredstr {
+  background: #ff0000;
+  position: absolute;
+  margin-left: 90px;
+  width: 20px;
+  height: 116px;
+  z-index: 997;
+}
+
+.veredstrsh {
+  background: #fff;
+  position: absolute;
+  margin-left: 85px;
+  width: 30px;
+  height: 116px;
+  z-index: 992;
+}
+
+.bgdiagredstr {
+  background: #ff0000;
+  position: absolute;
+  margin-top: -266px;
+  margin-left: 150px;
+  width: 6px;
+  height: 106px;
+  z-index: 992;
+  -webkit-transform: rotate(59deg);
+}
+
+.bgwdiagredstr {
+  background: #fff;
+  position: absolute;
+  margin-top: -303px;
+  margin-left: 95px;
+  width: 18px;
+  height: 243px;
+  z-index: 99;
+  -webkit-transform: rotate(59deg);
+}
+
+.bgbdiagredstr {
+  background: #ff0000;
+  position: absolute;
+  margin-top: -198px;
+  margin-left: 45px;
+  width: 6px;
+  height: 106px;
+  z-index: 99;
+  -webkit-transform: rotate(59deg);
+}
+
+.bgcdiagredstr {
+  background: #ff0000;
+  position: absolute;
+  margin-top: -263px;
+  margin-left: 45px;
+  width: 6px;
+  height: 113px;
+  z-index: 99;
+  -webkit-transform: rotate(-59deg);
+}
+
+.bgcwdiagredstr {
+  background: #fff;
+  position: absolute;
+  margin-top: -297px;
+  margin-left: 95px;
+  width: 18px;
+  height: 243px;
+  z-index: 98;
+  -webkit-transform: rotate(-59deg);
+}
+
+.bgddiagredstr {
+  background: #ff0000;
+  position: absolute;
+  margin-top: -204px;
+  margin-left: 152px;
+  width: 6px;
+  height: 111px;
+  z-index: 99;
+  -webkit-transform: rotate(-59deg);
+}
+
+
+
+.scale {
+  margin-top: 120px;
+  -webkit-transform: scale(2);
+}
+
+.web-lang-flag {
+  width: 24px;
+  height: 16px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;  /* <-- AÑADE ESTO */
+}
+
+
+
   </style>
 </head>
 <body>
+
 
 <canvas id="rainCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
 
@@ -195,6 +803,16 @@
     </div>
     <div class="window-body" style="padding: 15px; line-height: 1.5;">
       <h1>Hay demasiados problemas en el mundo y nos perjudica a todos...</h1>
+
+      <br>
+      <!-- Desktop Icon -->
+      <div class="desktop-icon" id="ie-icon">
+        <div class="icon-img"> <img src="images.jpeg" style="height: 50px; width: 40px;"></div>
+        <div class="icon-label">Internet<br>Explorer</div>
+      </div> 
+
+      <div id="windows-container"></div>
+      
       <div class="section-title" style="background: #00fc00; display: inline-block; padding: 5px 15px; border: 2px solid #000; font-weight: bold; margin-bottom: 0; box-shadow: 3px 3px 0px #000; position: relative; z-index: 2;">
         <!--formspree nigga -->
         <form action="https://formspree.io/f/xlgkzpvr" method="POST">
@@ -211,63 +829,66 @@
           <button type="submit" style="color: #2c1435; background-color: #00ffff; border-color: #2c1435; border-radius: 5px;">Enviar hostia</button>
         </form>
       </div>
-    </div>
-  </div>
 
-  <div class="section-title" style="background: #7dc57d; display: inline-block; padding: 5px 15px; border: 2px solid #000; font-weight: bold; margin-bottom: 0; box-shadow: 3px 3px 0px #000; position: relative; z-index: 2;">PROBLEMAS & SOLUCIONES</div>
+      <hr>
 
-  <div style="background: #fff; border: 2px solid #000; border-top: none; box-shadow: 5px 5px 0px #000; margin-bottom: 25px; position: relative; top: -2px; z-index: 1;">
-    <details style="margin-bottom: 0; border: none; border-bottom: 1px solid #ccc;">
-      <summary style="background: #f5f5f5; border: none; border-bottom: 1px solid #ddd;">Haz click aca pa leer hostia</summary>
-      <div class="details-content">
-        <span class="tag problem">El Problema:</span>
-        <p>La Manera De perjudicar a Los Malhechores se basa en la burocracia,
-           los partes no infringen la idea de que el alumno hizo algo mal,
-            y ademas hay que ser sinceros, muchos profesores no deciden perjudicar a alumnos por razones que yo no comprendo...
-            <br>
-           porque creemos que un solo papel va a cambiar algo,
-           en mi opinion solo le subira el ego al que lo recibe,
-           <br>
-            " wow tio me han pillao con el movil y me han dado un papel!" -Emilio
-            <br>
-            Despues de esto el alumno sube a clase y se la suda mazo.
-            <br><br>
-            No hay castigo real, solo papeleo inutil que alimenta a los que buscan atencion y joden a los demas.
-        </p>
-        <span class="tag solution">La Solucion:</span>
-        <p>
-          Tenemos una Biblioteca con unas cuantas sillas y silencio para pensar, propongo que si jodes la clase
-          <br>
-          40 minutos sin asistir a ella en silencio completo en la biblioteca en la presencia de un monitor (no profesor).
-          <br>
-          El monitor debe ser personal no docente. Asi se evita el favoritismo y el profesor no pierde autoridad.
-          <br>
-          Si no acudes a los 40 minutos se llama obligatoriamente a los padres al instituto y se te expulsa de clase hasta que el tutor se reuna con ellos. Que se enteren de que su hijo es un ninato y que este centro lo pagamos entre todos.
-          <br>
-          Para volver a clase el alumno debe reconocer por escrito que ha jodido el aprendizaje de los demas.
-        </p>
-        <p style="font-size: 12px; color: #444;">si no respeta al profesor en clase porque deberia acudir a ella?</p>
+      <div class="section-title" style="background: #7dc57d; display: inline-block; padding: 5px 15px; border: 2px solid #000; font-weight: bold; margin-bottom: 0; box-shadow: 3px 3px 0px #000; position: relative; z-index: 2;">PROBLEMAS & SOLUCIONES</div>
+
+      <div style="background: #fff; border: 2px solid #000; border-top: none; box-shadow: 5px 5px 0px #000; margin-bottom: 25px; position: relative; top: -2px; z-index: 1;">
+        <details style="margin-bottom: 0; border: none; border-bottom: 1px solid #ccc;">
+          <summary style="background: #f5f5f5; border: none; border-bottom: 1px solid #ddd;">Haz click aca pa leer hostia</summary>
+          <div class="details-content">
+            <span class="tag problem">El Problema:</span>
+            <p>La Manera De perjudicar a Los Malhechores se basa en la burocracia,
+               los partes no infringen la idea de que el alumno hizo algo mal,
+                y ademas hay que ser sinceros, muchos profesores no deciden perjudicar a alumnos por razones que yo no comprendo...
+                <br>
+               porque creemos que un solo papel va a cambiar algo,
+               en mi opinion solo le subira el ego al que lo recibe,
+               <br>
+                " wow tio me han pillao con el movil y me han dado un papel!" -Emilio
+                <br>
+                Despues de esto el alumno sube a clase y se la suda mazo.
+                <br><br>
+                No hay castigo real, solo papeleo inutil que alimenta a los que buscan atencion y joden a los demas.
+            </p>
+            <span class="tag solution">La Solucion:</span>
+            <p>
+              Tenemos una Biblioteca con unas cuantas sillas y silencio para pensar, propongo que si jodes la clase
+              <br>
+              40 minutos sin asistir a ella en silencio completo en la biblioteca en la presencia de un monitor (no profesor).
+              <br>
+              El monitor debe ser personal no docente. Asi se evita el favoritismo y el profesor no pierde autoridad.
+              <br>
+              Si no acudes a los 40 minutos se llama obligatoriamente a los padres al instituto y se te expulsa de clase hasta que el tutor se reuna con ellos. Que se enteren de que su hijo es un ninato y que este centro lo pagamos entre todos.
+              <br>
+              Para volver a clase el alumno debe reconocer por escrito que ha jodido el aprendizaje de los demas.
+            </p>
+            <p style="font-size: 12px; color: #444;">si no respeta al profesor en clase porque deberia acudir a ella?</p>
+          </div>
+        </details>
+
+        <details style="margin-bottom: 0; border: none; border-bottom: 1px solid #ccc;">
+          <summary style="background: #f5f5f5; border: none; border-bottom: 1px solid #ddd;">Haz click aca pa leer hostia</summary>
+          <div class="details-content">
+            <span class="tag problem">El Problema:</span>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            <span class="tag solution">La Solucion:</span>
+            <p>Rizz</p>
+            <p style="font-size: 12px; color: #444;">skibidi</p>
+          </div>
+        </details>
       </div>
-    </details>
 
-    <details style="margin-bottom: 0; border: none; border-bottom: 1px solid #ccc;">
-      <summary style="background: #f5f5f5; border: none; border-bottom: 1px solid #ddd;">Haz click aca pa leer hostia</summary>
-      <div class="details-content">
-        <span class="tag problem">El Problema:</span>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        <span class="tag solution">La Solucion:</span>
-        <p>Rizz</p>
-        <p style="font-size: 12px; color: #444;">skibidi</p>
+      <div class="footer" style="margin-top: 40px; text-align: center; border-top: 2px dashed #000; padding-top: 15px; font-size: 12px; padding-bottom: 20px;">
+        <p><b><h2>me gusta la vida pero la gente se cree mejor que yo y otros</h2></b></p>
+        <button onclick="fatCat()" style="margin-top:10px; padding:8px 16px; font-family:inherit; font-weight:bold; border:2px solid #000; background:#ff00ff; color:#ffff00; cursor:pointer; box-shadow:3px 3px 0 #000;">Me La Suda Por Completo Tronco!!!!</button>
       </div>
-    </details>
-  </div>
 
-  <div class="footer" style="margin-top: 40px; text-align: center; border-top: 2px dashed #000; padding-top: 15px; font-size: 12px; padding-bottom: 20px;">
-    <p><b><h2>me gusta la vida pero la gente se cree mejor que yo y otros</h2></b></p>
-    <button onclick="fatCat()" style="margin-top:10px; padding:8px 16px; font-family:inherit; font-weight:bold; border:2px solid #000; background:#ff00ff; color:#ffff00; cursor:pointer; box-shadow:3px 3px 0 #000;">Me La Suda Por Completo Tronco!!!!</button>
-  </div>
+    </div>  <!-- CIERRA window-body -->
+  </div>  <!-- CIERRA window-box -->
 
-</div>
+</div>  <!-- CIERRA content-wrapper -->
 
 <!-- Windows-style popup -->
 <div id="winPopup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); width:320px; max-width:90vw; background:#c0c0c0; border:2px solid #000; box-shadow:4px 4px 0 #000; z-index:99999; font-family:'Courier New',monospace;">
@@ -294,6 +915,7 @@
 
 <!-- Party cat button -->
 <img id="partyCatBtn" src="partycat.gif" style="position:fixed; bottom:20px; right:20px; width:100px; cursor:pointer; z-index:99999;" onclick="dropDisco()" title="CLICK ME HOSTIA">
+
 
 <script>
   function fatCat() {
@@ -518,6 +1140,889 @@
     ball.style.transition = discoDown ? 'top 3s ease-in' : 'top 2s ease-out';
     ball.style.top = discoDown ? '40px' : '-300px';
   }
+
+
+
+    // Spanish content (default)
+    const spanishHtml = `<div class="essay-content" id="essay-es">
+<h1>El Campamento</h1>
+<div class="web-lang-bar">
+<span>Idioma:</span>
+<div class="web-lang-flag flag-es active" id="web-flag-es" data-lang="es" title="Español"></div>
+<div class="web-lang-flag flag-gb" id="web-flag-gb" data-lang="en" title="English">
+<div class="scale" style="margin-top:0; -webkit-transform: scale(0.12); transform: scale(0.12); transform-origin: top left;">
+  <div class="horedstr"></div>
+  <div class="horedstrsh"></div>
+  <div class="veredstr"></div>
+  <div class="veredstrsh"></div>
+  <div class="ukflag"></div>
+  <div class="bgdiagredstr"></div>
+  <div class="bgwdiagredstr"></div>
+  <div class="bgbdiagredstr"></div>
+  <div class="bgcdiagredstr"></div>
+  <div class="bgcwdiagredstr"></div>
+  <div class="bgddiagredstr"></div>
+</div>
+</div>
+</div>
+<p class="subtitle">Una Reflexión sobre el Sistema que Nos Envenena a Todos</p>
+
+<div class="quote">
+"Cada mañana, 8 mil millones de prisioneros despiertan en celdas que ellos mismos construyeron. Son, al mismo tiempo, los presos y los guardianes."
+</div>
+
+<hr>
+
+<h2>I. La Distopía Silenciosa</h2>
+<p>
+No vivimos en el futuro que nos prometieron. Vivimos en una distopía silenciosa donde un puñado de individuos acapara recursos que podrían alimentar naciones enteras, donde la riqueza se concentra en la cima mientras miles de millones pelean por las migajas. Llamamos a ese acaparamiento "dinero", como si la palabra pudiera limpiar el hambre que permite. El absurdo se acepta sin cuestionarlo.
+</p>
+<p>
+Mientras tanto, las mismas mentes que diseñaron esta desigualdad sueñan con Marte. Bocetan colonias en polvo rojo mientras la Tierra se ahoga en plástico y humos. Hablan de supervivencia interplanetaria mientras nuestros océanos se acidifican y los bosques arden. Es más fácil imaginar terraformar otro mundo que arreglar este — porque arreglar este exigiría compartir.
+</p>
+<p>
+¿Y qué hay de la podredumbre interna? La corrupción se ha vuelto tan rutinaria que apenas la notamos. Surgen escándalos, brillan los titulares, y el mundo se encoge de hombros. Los políticos intercambian favores a plena luz; las corporaciones escriben leyes entre descanso y descanso; el público, anestesiado por las pantallas, sigue desplazándose hacia abajo. La disciplina — personal, institucional, moral — se ha erosionado hasta convertirse en farsa. Confundimos ruido con acción, indignación con cambio.
+</p>
+<p>
+Homo sapiens, el "hombre sabio", construye sistemas demasiado complejos para controlar y luego se pregunta por qué colapsan. Normalizamos lo anormal hasta que la jaula se siente como libertad. La tragedia no es que la distopía haya llegado — es que dejamos de reconocerla. No estamos marchando hacia un mundo mejor; caminamos dormidos a través de uno roto, distraídos por la promesa de escape mientras el suelo se derrumba bajo nuestros pies.
+</p>
+<p>
+El primer paso hacia el cambio es admitir que ya estamos ahí.
+</p>
+
+<hr>
+
+<h2>II. El Guardia y el Preso</h2>
+<p>
+El guardia despierta. Se ducha con espuma impregnada de sulfato de laureth sódico y 1,4-dioxano — surfactantes y probables carcinógenos que las plantas de tratamiento no están obligadas a eliminar. Se traga disruptores endocrinos con su café. Rocía insecticidas neurotóxicos en su césped y conduce al trabajo en una máquina que envenena el mismo aire que respira.
+</p>
+<p>
+El preso regresa a casa a un agua que, según un estudio de la USGS de 2018, transportaba una mediana de <strong>17 contaminantes orgánicos e inorgánicos diferentes</strong> por grifo de suministro público — de 482 compuestos analizados. El mismo estudio encontró hasta <strong>29 compuestos en un solo vaso</strong>. Otra encuesta de la EPA/USGS identificó 47 fármacos distintos en las aguas fuente que alimentan esos grifos. Esos medicamentos atraviesan los cuerpos humanos prácticamente sin cambios, entran en el ciclo del agua y alteran la neuroquímica de los peces y la reproducción de los anfibios. La planta de tratamiento fue diseñada para matar bacterias. No fue diseñada para destruir moléculas creadas para ser biológicamente activas.
+</p>
+<p>
+Vota por políticos que prometen más crecimiento. Compra productos envueltos en plástico que sobrevivirán a sus nietos. Consume alimentos de un sistema que externaliza cada costo real sobre la tierra, el agua y el futuro.
+</p>
+
+<div class="quote">
+No ve las rejas porque están hechas de conveniencia. No oye los candados porque suenan como notificaciones. No siente las cadenas porque están tejidas con deuda de tarjeta de crédito y suscripciones de streaming.
+</div>
+
+<p>
+El campamento no tiene vallas — solo precios. No tiene guardianes — solo algoritmos. No tiene comandante — solo informes trimestrales de beneficios. El daño se distribuye: un tubo de escape por familia, una fábrica por ciudad, una hectárea deforestada por hamburguesa.
+</p>
+
+<hr>
+
+<h2>III. La Confesión: 96%</h2>
+<p>
+Los humanos y nuestro ganado constituyen ahora aproximadamente el <strong>96% de toda la biomasa de mamíferos en la Tierra</strong>. Los mamíferos salvajes — cada elefante, cada ballena, cada lobo, cada murciélago — constituyen aproximadamente el 4%.
+</p>
+
+<div class="stat-box">
+<div class="stat-number">96% / 4%</div>
+<div class="stat-label">Humanos y Ganado vs. Mamíferos Salvajes de toda la biomasa de mamíferos en la Tierra</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-number">73%</div>
+<div class="stat-label">Colapso de la población de fauna silvestre desde 1970 (Informe Planeta Vivo de WWF 2024)</div>
+</div>
+
+<p>
+Esto no es una estadística. Es una confesión.
+</p>
+<p>
+No "compartimos" el planeta con los mamíferos salvajes. Los consumimos. Los reemplazamos por miles de millones de cabezas de ganado y 8 mil millones de humanos, y llamamos a eso "progreso". La biomasa del planeta ha sido reasignada: de bosques y sabanas a corrales de engorde y aparcamientos. Los animales que quedan son refugiados en fragmentos de hábitat demasiado pequeños para sostenerlos, rodeados de agricultura química y expansión urbana.
+</p>
+<p>
+El Informe Planeta Vivo 2024 del WWF — compilado por la Sociedad Zoológica de Londres con datos de casi 35.000 poblaciones de vertebrados — revela que las poblaciones monitoreadas de fauna silvestre han colapsado un <strong>73% desde 1970</strong>. Eso no es una tendencia. Es una escena de crimen con 8 mil millones de cómplices, la mayoría de los cuales no sabe que sostiene el cuchillo. América Latina y el Caribe han sufrido un declive del 95%; las especies de agua dulce han caído un 85%. El "blanco en expansión" de vulnerabilidad climática obliga ahora a poblaciones humanas a ocupar los mismos paisajes propensos a riesgos que hicimos inhabitables para todo lo demás.
+</p>
+
+<hr>
+
+<h2>IV. El Envenenamiento Diario</h2>
+<p>
+Los químicos en el agua municipal no son un accidente. Son los subproductos metabólicos de 8 mil millones de personas que intentan mantenerse limpias, medicadas, alimentadas y cómodas en un sistema que trata el planeta como un vertedero.
+</p>
+
+<h3>Tu Ducha Matutina</h3>
+<p>
+Sulfato de lauril/laureth sódico, 1,4-dioxano, triclosán. Te estás lavando con probables carcinógenos y disruptores endocrinos porque al sistema industrial que produce tu jabón no le importa qué pasa después de que baja por el desagüe.
+</p>
+
+<h3>Tu Medicación</h3>
+<p>
+Un estudio de la USGS/EPA encontró <strong>47 fármacos diferentes</strong> en aguas fuente de todo Estados Unidos, incluyendo carbamazepina, metoprolol y el estrógeno sintético usado en anticonceptivos (17-alfa-etinilestradiol). No eres el destino final de estas moléculas. Eres una estación de paso. Atraviesan tu cuerpo sin cambios y entran en el ciclo del agua, donde alteran la reproducción de la vida acuática. La planta de tratamiento no puede eliminarlos porque no está equipada para ello.
+</p>
+
+<h3>Tu Cocina</h3>
+<p>
+PFOA de la sartén antiadherente, BPA/BPS de la botella de plástico, sucralosa y acesulfamo de potasio de tu edulcorante. Los "químicos eternos" están en tu sangre ahora mismo. La EPA dice que no existe un nivel seguro de PFAS. Pero las sartenes siguen a la venta. Las botellas siguen en los estantes. Los edulcorantes siguen en cada producto dietético porque la alternativa — el azúcar — ha sido demonizada, y la alternativa química se ha comercializado como "segura".
+</p>
+
+<h3>Tu Hogar y Jardín</h3>
+<p>
+Glifosato en las malas hierbas, permetrina en el insecticida, benceno en la pintura, PERC de la tintorería, PBDE en tu sofá. Estás rodeado de sustancias que se acumulan en los tejidos, cruzan la placenta y persisten durante décadas. Pagaste por ellas. Las trajiste a tu hogar. Las rociaste en tu césped donde juegan tus hijos.
+</p>
+
+<h3>Tus Tuberías de Agua</h3>
+<p>
+Plomo, cobre, cadmio, cromo-6, cloroformo. La infraestructura que te trae el agua es, ella misma, una fuente de contaminación. La desinfección que hace el agua segura contra las bacterias crea subproductos carcinogénicos. Las tuberías de plomo que ya se sabía que eran tóxicas en tiempos romanos siguen en servicio en ciudades estadounidenses.
+</p>
+
+<div class="quote">
+Cada una de estas exposiciones es subletal por sí sola. Pero la biología no funciona con modelos de exposición única. El sistema endocrino es una red. El sistema inmune es una red. El cerebro en desarrollo es una red. Cuando golpeas una red con más de 20 disruptores simultáneamente, cada día, durante décadas, no obtienes un envenenamiento agudo. Obtienes una degradación crónica.
+</div>
+
+<hr>
+
+<h2>V. Las Catástrofes</h2>
+<p>
+Los 16 desastres industriales y militares no son excepciones. Son el sistema funcionando con normalidad bajo estrés.
+</p>
+
+<div class="disaster-box">
+<h4>Operación Ranch Hand — Vietnam</h4>
+<div class="disaster-meta">20 MILLONES DE GALONES DE AGENTE NARANJA</div>
+<p>El ejército estadounidense roció 20 millones de galones de herbicidas que contenían TCDD (dioxina) — uno de los compuestos sintéticos más tóxicos jamás creados. Se adhiere al suelo y a los sedimentos durante décadas. Los "puntos calientes de dioxina" alrededor de antiguas bases aéreas como Da Nang y Phu Cat siguen envenenando las aguas subterráneas hoy, tres generaciones después. Defectos de nacimiento, cánceres y trastornos neurológicos persisten en familias vietnamitas que nunca vieron combate.</p>
+</div>
+
+<div class="disaster-box">
+<h4>Bhopal — India, 1984</h4>
+<div class="disaster-meta">40 TONELADAS DE ISOCANATO DE METILO + DÉCADAS DE ENVENENAMIENTO DE AGUAS SUBTERRÁNEAS</div>
+<p>Una planta de Union Carbide fugó 40 toneladas de gas isocianato de metilo, matando a miles al instante. Después de que la instalación fue abandonada, miles de toneladas de desechos peligrosos — tetracloruro de carbono, cloroformo, mercurio — quedaron enterrados en el lugar. Décadas después, esas toxinas siguen filtrándose directamente al agua potable municipal de las comunidades circundantes. Niños nacen con defectos de nacimiento por culpa de un agua que envenenaron sus abuelos.</p>
+</div>
+
+<div class="disaster-box">
+<h4>Mariana — Brasil, 2015</h4>
+<div class="disaster-meta">60 MILLONES DE METROS CÚBICOS DE LODO TÓXICO DE MINERAL DE HIERRO</div>
+<p>Una represa de relaves de mineral de hierro colapsó, liberando 60 millones de metros cúbicos de lodo tóxico. Arrasó con el pueblo de Bento Rodrigues y fluyó más de 600 km por el río Doce hasta el océano Atlántico. El lecho del río y el suelo circundante permanecen saturados con altas concentraciones de hierro, aluminio y metales pesados. Esto no fue un desastre natural. Fue una estructura diseñada para contener desechos industriales que falló porque el costo de una ingeniería adecuada superaba el margen de beneficio.</p>
+</div>
+
+<div class="disaster-box">
+<h4>Baia Mare — Rumanía, 2000</h4>
+<div class="disaster-meta">100.000 METROS CÚBICOS DE CIANURO Y METALES PESADOS</div>
+<p>Una represa minera de oro reventó, liberando 100.000 metros cúbicos de aguas residuales fuertemente contaminadas con cianuro y metales pesados en la cuenca del río Danubio. Diezmó la vida acuática a través de múltiples países. Los metales pesados permanecen unidos de forma permanente a los suelos de llanura de inundación agrícola. La compañía obtuvo su beneficio. La cuenca del Danubio absorbió el coste.</p>
+</div>
+
+<div class="disaster-box">
+<h4>Kingston — Tennessee, EE. UU., 2008</h4>
+<div class="disaster-meta">1.100 MILLONES DE GALONES DE CENIZA TÓXICA DE CARBÓN</div>
+<p>Un dique falló en una planta de energía de carbón, liberando 1.100 millones de galones de lodo de ceniza volante de carbón tóxico en ríos y valles cercanos. La ceniza contiene metales pesados concentrados como arsénico, selenio y mercurio, que se asentaron de forma permanente en el sedimento del lecho del río y el suelo adyacente. La electricidad que alimentó el aire acondicionado de alguien ahora está en el agua subterránea que alimenta el pozo de alguien.</p>
+</div>
+
+<p>
+Cada uno de estos eventos comparte una estructura común: <strong>una entidad privada se quedó con el beneficio, y el público — humano y no humano — absorbió el coste.</strong> El beneficio fue extraído. El veneno se quedó atrás. Y el sistema que produjo estos eventos es el mismo que produce tu champú, tu teléfono, tu electricidad y tus emisiones de CO₂.
+</p>
+
+<hr>
+
+<h2>VI. El Carbono: 33 Mil Millones de Toneladas de Firma de Escape</h2>
+<p>
+Los datos de CO₂ no están separados de la contaminación química. Es el mismo fenómeno a escala atmosférica.
+</p>
+
+<table>
+<thead>
+<tr>
+<th>País</th>
+<th>CO₂ Total (Miles de Millones de Toneladas)</th>
+<th>Per Cápita (Toneladas)</th>
+<th>Participación Global</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>China</strong></td>
+<td class="highlight">13,1</td>
+<td>9,1</td>
+<td class="highlight">33,1%</td>
+</tr>
+<tr>
+<td><strong>Estados Unidos</strong></td>
+<td class="highlight">4,6</td>
+<td>13,6</td>
+<td>11,7%</td>
+</tr>
+<tr>
+<td><strong>India</strong></td>
+<td>3,2</td>
+<td>2,2</td>
+<td>8,0%</td>
+</tr>
+<tr>
+<td><strong>Rusia</strong></td>
+<td>2,0</td>
+<td>14,1</td>
+<td>5,1%</td>
+</tr>
+<tr>
+<td><strong>Japón</strong></td>
+<td>1,0</td>
+<td>7,8</td>
+<td>2,5%</td>
+</tr>
+<tr>
+<td><strong>Arabia Saudita</strong></td>
+<td>0,7</td>
+<td class="highlight">17,7</td>
+<td>1,7%</td>
+</tr>
+<tr>
+<td><strong>Canadá</strong></td>
+<td>0,6</td>
+<td class="highlight">14,9</td>
+<td>1,5%</td>
+</tr>
+<tr>
+<td><strong>Australia</strong></td>
+<td>0,4</td>
+<td class="highlight">14,4</td>
+<td>1,0%</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<strong>China</strong> emite más CO₂ que los siguientes tres países combinados. También sufrió la explosión petroquímica de Jilin y el vertido de cadmio de Guangxi. Es la fábrica del mundo — produce los plásticos, la electrónica y los químicos que acaban en tu hogar, mientras sus propios ríos y su aire absorben los desechos.
+</p>
+<p>
+Los <strong>Estados Unidos</strong> tienen las segundas emisiones absolutas más altas y unas de las emisiones per cápita más altas del planeta (13,6 toneladas por persona). También nos dieron Love Canal, el vertido de ceniza de carbón de Kingston y el desastre de la mina Gold King. La misma infraestructura industrial que alimenta el consumo estadounidense envenena a las comunidades estadounidenses.
+</p>
+<p>
+<strong>Arabia Saudita</strong> (17,7 toneladas per cápita) y <strong>Australia</strong> (14,4 toneladas per cápita) tienen algunas de las emisiones per cápita más altas del mundo — impulsadas por la extracción de petróleo y economías basadas en el carbón. Las industrias extractivas que generan su riqueza son las mismas que crean los petroquímicos que saturan tu agua y los metales pesados que envenenan las aguas subterráneas.
+</p>
+<p>
+<strong>Vietnam</strong> tiene emisiones per cápita relativamente moderadas (4,2 toneladas) pero carga el riesgo de contaminación más alto de cualquier país — debido al Agente Naranja y al Agente Azul, campañas militares llevadas a cabo por una nación de alta emisión (EE. UU.) en su territorio. Este es el nexo entre clima y colonialismo: los países ricos y de alta emisión externalizan tanto los costes de carbono como las cargas tóxicas a naciones más pobres.
+</p>
+
+<div class="quote">
+El sistema que envenena la atmósfera es el mismo que envenena tu agua. No son problemas separados. Son un solo problema que lleva diferentes máscaras.
+</div>
+
+<hr>
+
+<h2>VII. Los Desechos y el Agua</h2>
+
+<div class="stat-box">
+<div class="stat-number">3.800 Millones de Toneladas</div>
+<div class="stat-label">Desechos anuales para 2050 — un aumento del 81%</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-number">10 Millones de Hectáreas</div>
+<div class="stat-label">Bosque destruido cada año</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-number">1/3</div>
+<div class="stat-label">de las poblaciones pesqueras globales sobreexplotadas</div>
+</div>
+
+<p>
+Se proyecta que los desechos sólidos municipales globales aumenten un <strong>81% para 2050</strong>, alcanzando 3.800 millones de toneladas por año. Cada pieza de plástico jamás fabricada sigue existiendo. Cada químico jamás sintetizado sigue circulando. Cada tonelada de CO₂ sigue calentando. La atmósfera no olvida. El océano no perdona. Los acuíferos no se recargan en escalas de tiempo humanas.
+</p>
+<p>
+Los desechos no son un subproducto del sistema. <strong>Son</strong> el sistema. La economía está diseñada para convertir materias primas en desechos tan rápido como sea posible. Cuanto más rápida la rotación, más alto el PIB. Cuanto más envase, más empleo. Cuanta más obsolescencia programada, más consumo. Los desechos no son un fallo del sistema. Son la salida intencionada del sistema.
+</p>
+<p>
+Y los acuíferos se están agotando. El Ogallala en EE. UU., la Llanura del Norte de China, el Ganges en India — todos se están extrayendo más rápido de lo que la lluvia puede rellenarlos. El agua subterránea no es renovable en escalas de tiempo humanas. Una vez agotada, se ha ido. La agricultura que alimenta a 8 mil millones de personas depende de agua que se está retirando al 85%, 92%, 88% de tasas sostenibles. Cuando fallen los acuíferos, falla el sistema alimentario. Cuando falla el sistema alimentario, el campamento revela su verdadera naturaleza.
+</p>
+<p>
+Para alimentar a 8 mil millones de personas, las flotas pesqueras industriales han sobreexplotado un tercio de las poblaciones pesqueras del mundo. El ecosistema oceánico se está desmantelando por arrastreros que raspan el fondo marino desnudo, por palangres que matan aves marinas y tortugas como captura incidental, por plástico que imita comida y llena los estómagos de las ballenas hasta que mueren de hambre. El océano produce la mitad del oxígeno que respiras. Estamos matando al organismo que nos mantiene vivos mientras cosechamos sus habitantes hasta la extinción.
+</p>
+
+<hr>
+
+<h2>VIII. La Verdad</h2>
+<p>
+No estamos "tensionando" el planeta. Lo estamos consumiendo.
+</p>
+<p>
+No estamos "enfrentando desafíos". Somos nosotros el desafío.
+</p>
+<p>
+El campo de concentración no está a nuestro alrededor. Somos nosotros.
+</p>
+<p>
+Cada compra es un voto a favor del sistema. Cada ducha es una exposición química. Cada comida es una extracción de recursos. Cada viaje al trabajo es una emisión. Cada medicación es un evento de contaminación de agua esperando a suceder. No estamos atrapados en el campamento por la fuerza. Estamos atrapados por la imposibilidad de salir sin morirnos de hambre, congelarnos o ser abandonados médicamente. El campamento es total. Abarca cada necesidad y cada solución. No puedes optar por no estar en el sistema de agua. No puedes optar por no estar en el sistema de alimentos. No puedes optar por no estar en el sistema médico. Solo puedes consumir productos ligeramente diferentes dentro del mismo marco tóxico y llamarlo "vida consciente".
+</p>
+<p>
+El colapso del 73% de la fauna silvestre, la concentración del 96% de la biomasa, los 47 contaminantes del agua, las 16 catástrofes industriales, las 33 mil millones de toneladas de CO₂, los 3.800 millones de toneladas de desechos anuales, los acuíferos agotados, los océanos sobreexplotados — estas no son crisis separadas. Son <strong>síntomas de una sola enfermedad</strong>: la extracción industrial de los sistemas vivos del planeta para el confort temporal de una especie, que ahora se está envenenando a sí misma en el proceso.
+</p>
+<p>
+El guardia y el preso son la misma persona. El arma y la herida son el mismo producto. El campamento no es un lugar. Es un modo de ser. Y 8 mil millones de personas lo están viviendo ahora mismo, la mayoría demasiado ocupadas sobreviviendo como para darse cuenta de que son tanto los prisioneros como la maquinaria de su propio confinamiento.
+</p>
+
+<hr>
+
+<div class="quote" style="text-align: center; border-left: none; font-size: 1.3em;">
+El campamento no tiene vallas.<br>
+<strong>Somos nosotros.</strong>
+</div>
+
+<footer>
+<p><em>Escrito con la esperanza de que veamos con claridad, antes de que sea demasiado tarde.</em></p>
+</footer>
+
+<p class="disclaimer">
+<small>Aviso legal: Estas ideas se ofrecen libremente. Toma lo que resuene, cuestiona lo que no, y construye tu propio camino.</small>
+</p>
+</div>`;
+
+    // English content
+    const englishHtml = `<div class="essay-content" id="essay-en" style="display:none;">
+<h1>The Camp</h1>
+<div class="web-lang-bar">
+<span>Language:</span>
+<div class="web-lang-flag flag-es" id="web-flag-en-es" data-lang="es" title="Español"></div>
+<div class="web-lang-flag flag-gb" id="web-flag-gb" data-lang="en" title="English">
+<div class="scale" style="margin-top:0; -webkit-transform: scale(0.12); transform: scale(0.12); transform-origin: top left;">
+  <div class="horedstr"></div>
+  <div class="horedstrsh"></div>
+  <div class="veredstr"></div>
+  <div class="veredstrsh"></div>
+  <div class="ukflag"></div>
+  <div class="bgdiagredstr"></div>
+  <div class="bgwdiagredstr"></div>
+  <div class="bgbdiagredstr"></div>
+  <div class="bgcdiagredstr"></div>
+  <div class="bgcwdiagredstr"></div>
+  <div class="bgddiagredstr"></div>
+</div>
+</div>
+</div>
+<p class="subtitle">A Reflection on the System That Poisons Us All</p>
+
+<div class="quote">
+"Every morning, 8 billion prisoners wake up in cells they built themselves. They are simultaneously the inmates and the guards."
+</div>
+
+<hr>
+
+<h2>I. The Quiet Dystopia</h2>
+<p>
+We do not live in the future we were promised. We live in a quiet dystopia where a handful of individuals hoard resources that could feed nations, where wealth concentrates at the top while billions scramble for scraps. We call this hoarded supply "money," as if the word sanitizes the starvation it enables. The absurdity is accepted without question.
+</p>
+<p>
+Meanwhile, the same minds that engineered this inequality dream of Mars. They sketch colonies in red dust while Earth chokes on plastic and fumes. They speak of interplanetary survival as our oceans acidify and forests burn. It is easier to imagine terraforming another world than fixing this one—because fixing this one would require sharing.
+</p>
+<p>
+And what of the rot within? Corruption has become so routine we barely notice it. Scandals surface, headlines flash, and the world shrugs. Politicians trade favors in daylight; corporations write laws between lunch breaks; the public, anaesthetized by screens, scrolls past. Discipline—personal, institutional, moral—has eroded into performance. We mistake noise for action, outrage for change.
+</p>
+<p>
+Homo sapiens, the "wise human," builds systems too complex to control, then wonders why they collapse. We normalize the abnormal until the cage feels like freedom. The tragedy is not that dystopia arrived—it is that we stopped recognizing it. We are not marching toward a better world; we are sleepwalking through a broken one, distracted by the promise of escape while the floor gives way beneath us.
+</p>
+<p>
+The first step toward change is admitting we are already there.
+</p>
+
+<hr>
+
+<h2>II. The Guard and the Inmate</h2>
+<p>
+The guard wakes up. He showers with suds laced with sodium laureth sulfate and 1,4-dioxane — surfactants and probable carcinogens that treatment plants are not required to remove. He swallows endocrine disruptors with his coffee. He sprays neurotoxic insecticides on his lawn and drives to work in a machine that poisons the air he breathes.
+</p>
+<p>
+The inmate returns home to water that a 2018 USGS study found carried a median of <strong>17 different organic and inorganic contaminants</strong> per public-supply tap — out of 482 compounds screened. The same study found up to <strong>29 compounds in a single glass</strong>. Another EPA/USGS survey identified 47 distinct pharmaceuticals in source waters feeding those taps. Those medications pass through human bodies largely unchanged, enter the water cycle, and disrupt the neurochemistry of fish and the reproduction of amphibians. The treatment plant was designed to kill bacteria. It was not designed to destroy molecules engineered to be biologically active.
+</p>
+<p>
+He votes for politicians who promise more growth. He buys products wrapped in plastic that will outlive his grandchildren. He consumes food from a system that externalizes every true cost onto the land, the water, and the future.
+</p>
+
+<div class="quote">
+He does not see the bars because they are made of convenience. He does not hear the locks because they sound like notification chimes. He does not feel the chains because they are woven from credit card debt and streaming subscriptions.
+</div>
+
+<p>
+The camp has no fences — only prices. No guards — only algorithms. No commandant — only quarterly earnings reports. The harm is distributed: one tailpipe per family, one factory per city, one deforested hectare per hamburger.
+</p>
+
+<hr>
+
+<h2>III. The Confession: 96%</h2>
+<p>
+Humans and our livestock now constitute approximately <strong>96% of all mammalian biomass on Earth</strong>. Wild mammals — every elephant, every whale, every wolf, every bat — make up roughly 4%.
+</p>
+
+<div class="stat-box">
+<div class="stat-number">96% / 4%</div>
+<div class="stat-label">Humans & Livestock vs. Wild Mammals of all mammalian biomass on Earth</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-number">73%</div>
+<div class="stat-label">Wildlife population collapse since 1970 (WWF Living Planet Report 2024)</div>
+</div>
+
+<p>
+This is not a statistic. It is a confession.
+</p>
+<p>
+We did not "share" the planet with wild mammals. We consumed them. We replaced them with billions of cattle and 8 billion humans, and we call this "progress." The biomass of the planet has been reallocated from forests and savannas to feedlots and parking lots. The animals that remain are refugees in fragments of habitat too small to sustain them, surrounded by chemical agriculture and urban sprawl.
+</p>
+<p>
+The WWF's 2024 Living Planet Report — compiled by the Zoological Society of London using data from nearly 35,000 vertebrate populations — finds that monitored wildlife populations have collapsed by <strong>73% since 1970</strong>. That is not a trend. It is a murder scene with 8 billion accomplices, most of whom do not know they hold the knife. Latin America and the Caribbean have seen a 95% decline; freshwater species have dropped 85%. The "expanding bullseye" of climate vulnerability now forces human populations into the same hazard-prone landscapes we made uninhabitable for everything else.
+</p>
+
+<hr>
+
+<h2>IV. The Daily Poisoning</h2>
+<p>
+The chemicals in municipal water are not an accident. They are the metabolic byproducts of 8 billion people trying to stay clean, medicated, fed, and comfortable in a system that treats the planet as a waste sink.
+</p>
+
+<h3>Your Morning Shower</h3>
+<p>
+Sodium lauryl/laureth sulfate, 1,4-dioxane, triclosan. You are washing yourself with probable carcinogens and endocrine disruptors because the industrial system that produces your soap has no mechanism to care what happens after it goes down the drain.
+</p>
+
+<h3>Your Medication</h3>
+<p>
+A USGS/EPA study found <strong>47 different pharmaceuticals</strong> in source waters across the United States, including carbamazepine, metoprolol, and the synthetic estrogen used in birth control (17-alpha-ethinylestradiol). You are not the endpoint of these molecules. You are a processing station. They pass through you unchanged and enter the water cycle, where they alter the reproduction of aquatic life. The treatment plant cannot remove them because it is not equipped to.
+</p>
+
+<h3>Your Kitchen</h3>
+<p>
+PFOA from the non-stick pan, BPA/BPS from the plastic bottle, Sucralose and Acesulfame Potassium from your sweetener. The "forever chemicals" are in your blood right now. The EPA says there is no safe level of PFAS. But the pans are still for sale. The bottles are still on shelves. The sweeteners are still in every diet product because the alternative — sugar — has been demonized, and the chemical alternative has been marketed as "safe."
+</p>
+
+<h3>Your Home and Yard</h3>
+<p>
+Glyphosate on the weeds, Permethrin in the bug spray, Benzene in the paint, PERC from the dry cleaner, PBDEs in your couch. You are surrounded by substances that accumulate in tissue, cross the placenta, and persist for decades. You paid for them. You brought them into your home. You sprayed them on your lawn where your children play.
+</p>
+
+<h3>Your Water Pipes</h3>
+<p>
+Lead, Copper, Cadmium, Chromium-6, Chloroform. The infrastructure that delivers your water is itself a source of contamination. The disinfection that makes water safe from bacteria creates carcinogenic byproducts. The lead pipes that were known to be toxic in Roman times are still in service in American cities.
+</p>
+
+<div class="quote">
+Every single one of these exposures is sub-lethal on its own. But biology does not work on single-exposure models. The endocrine system is a network. The immune system is a network. The developing brain is a network. When you hit a network with 20+ disruptors simultaneously, every day, for decades, you do not get acute poisoning. You get chronic degradation.
+</div>
+
+<hr>
+
+<h2>V. The Catastrophes</h2>
+<p>
+The 16 industrial and military disasters are not exceptions. They are the system operating normally under stress.
+</p>
+
+<div class="disaster-box">
+<h4>Operation Ranch Hand — Vietnam</h4>
+<div class="disaster-meta">20 MILLION GALLONS OF AGENT ORANGE</div>
+<p>The US military sprayed 20 million gallons of herbicides containing TCDD (dioxin) — one of the most toxic synthetic compounds ever created. It binds to soil and sediment for decades. "Dioxin hot spots" around former airbases like Da Nang and Phu Cat still poison groundwater today, three generations later. Birth defects, cancers, and neurological disorders persist in Vietnamese families who never saw combat.</p>
+</div>
+
+<div class="disaster-box">
+<h4>Bhopal — India, 1984</h4>
+<div class="disaster-meta">40 TONS OF METHYL ISOCYANATE + DECADES OF GROUNDWATER POISONING</div>
+<p>A Union Carbide plant leaked 40 tons of methyl isocyanate gas, killing thousands instantly. After the facility was abandoned, thousands of tons of hazardous waste — carbon tetrachloride, chloroform, mercury — were left buried on-site. Decades later, these toxins still leach directly into the municipal drinking water of surrounding communities. Children are being born with birth defects from water their grandparents poisoned.</p>
+</div>
+
+<div class="disaster-box">
+<h4>Mariana — Brazil, 2015</h4>
+<div class="disaster-meta">60 MILLION CUBIC METERS OF TOXIC IRON ORE MUD</div>
+<p>An iron ore tailings dam collapsed, releasing 60 million cubic meters of toxic mud. It wiped out the village of Bento Rodrigues, flowed 600+ km down the Doce River to the Atlantic Ocean. The riverbed and surrounding soil remain saturated with heavy concentrations of iron, aluminum, and heavy metals. This was not a natural disaster. It was a structure designed to hold industrial waste that failed because the cost of proper engineering exceeded the profit margin.</p>
+</div>
+
+<div class="disaster-box">
+<h4>Baia Mare — Romania, 2000</h4>
+<div class="disaster-meta">100,000 CUBIC METERS OF CYANIDE AND HEAVY METALS</div>
+<p>A gold mining dam burst, releasing 100,000 cubic meters of wastewater heavily contaminated with cyanide and heavy metals into the Danube river basin. It decimated aquatic life across multiple countries. Heavy metals remain permanently bound to agricultural floodplain soils. The company made its profit. The Danube basin absorbed the cost.</p>
+</div>
+
+<div class="disaster-box">
+<h4>Kingston — Tennessee, USA, 2008</h4>
+<div class="disaster-meta">1.1 BILLION GALLONS OF TOXIC COAL ASH</div>
+<p>A dyke failed at a coal-fired power plant, releasing 1.1 billion gallons of toxic coal fly ash slurry into nearby rivers and valleys. The ash contains concentrated heavy metals like arsenic, selenium, and mercury, which settled permanently into riverbed sediment and adjacent soil. The electricity that powered someone's air conditioner is now in the groundwater that feeds someone's well.</p>
+</div>
+
+<p>
+Every one of these events shares a common structure: <strong>a private entity captured the benefit, and the public — human and non-human — absorbed the cost.</strong> The profit was extracted. The poison was left behind. And the system that produced these events is the same system that produces your shampoo, your phone, your electricity, and your CO₂ emissions.
+</p>
+
+<hr>
+
+<h2>VI. The Carbon: 33 Billion Tons of Exhaust Signature</h2>
+<p>
+The CO₂ data is not separate from the chemical contamination. It is the same phenomenon at atmospheric scale.
+</p>
+
+<table>
+<thead>
+<tr>
+<th>Country</th>
+<th>Total CO₂ (Billion Tons)</th>
+<th>Per Capita (Tons)</th>
+<th>Global Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>China</strong></td>
+<td class="highlight">13.1</td>
+<td>9.1</td>
+<td class="highlight">33.1%</td>
+</tr>
+<tr>
+<td><strong>United States</strong></td>
+<td class="highlight">4.6</td>
+<td>13.6</td>
+<td>11.7%</td>
+</tr>
+<tr>
+<td><strong>India</strong></td>
+<td>3.2</td>
+<td>2.2</td>
+<td>8.0%</td>
+</tr>
+<tr>
+<td><strong>Russia</strong></td>
+<td>2.0</td>
+<td>14.1</td>
+<td>5.1%</td>
+</tr>
+<tr>
+<td><strong>Japan</strong></td>
+<td>1.0</td>
+<td>7.8</td>
+<td>2.5%</td>
+</tr>
+<tr>
+<td><strong>Saudi Arabia</strong></td>
+<td>0.7</td>
+<td class="highlight">17.7</td>
+<td>1.7%</td>
+</tr>
+<tr>
+<td><strong>Canada</strong></td>
+<td>0.6</td>
+<td class="highlight">14.9</td>
+<td>1.5%</td>
+</tr>
+<tr>
+<td><strong>Australia</strong></td>
+<td>0.4</td>
+<td class="highlight">14.4</td>
+<td>1.0%</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<strong>China</strong> emits more CO₂ than the next three countries combined. It also had the Jilin petrochemical explosion and the Guangxi cadmium spill. It's the world's factory — producing the plastics, electronics, and chemicals that end up in your home, while its own rivers and air absorb the waste.
+</p>
+<p>
+The <strong>United States</strong> has the second-highest absolute emissions and some of the highest per-capita emissions on Earth (13.6 tons per person). It also gave us Love Canal, the Kingston coal ash spill, and the Gold King Mine disaster. The same industrial infrastructure that powers American consumption poisons American communities.
+</p>
+<p>
+<strong>Saudi Arabia</strong> (17.7 tons per capita) and <strong>Australia</strong> (14.4 tons per capita) have some of the highest per-capita emissions globally — driven by oil extraction and coal-powered economies. The extraction industries that produce their wealth are the same ones that create the petrochemicals saturating your water and the heavy metals poisoning groundwater.
+</p>
+<p>
+<strong>Vietnam</strong> has relatively moderate per-capita emissions (4.2 tons) but carries the highest contamination risk of any country — because of Agent Orange and Agent Blue, military campaigns conducted by a high-emitting nation (the US) on its soil. This is the climate-colonialism nexus: wealthy, high-emitting countries externalize both carbon costs and toxic burdens onto poorer nations.
+</p>
+
+<div class="quote">
+The system that poisons the atmosphere is the same system that poisons your water. They are not separate problems. They are one problem wearing different masks.
+</div>
+
+<hr>
+
+<h2>VII. The Waste and the Water</h2>
+
+<div class="stat-box">
+<div class="stat-number">3.8 Billion Tonnes</div>
+<div class="stat-label">Annual waste by 2050 — an 81% increase</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-number">10 Million Hectares</div>
+<div class="stat-label">Forest destroyed every year</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-number">1/3</div>
+<div class="stat-label">of global fish stocks overexploited</div>
+</div>
+
+<p>
+Global municipal solid waste is projected to increase <strong>81% by 2050</strong>, reaching 3.8 billion tonnes per year. Every piece of plastic ever made still exists. Every chemical ever synthesized still circulates. Every tonne of CO₂ still warms. The atmosphere does not forget. The ocean does not forgive. The aquifers do not replenish on human timescales.
+</p>
+<p>
+The waste is not a byproduct of the system. It <strong>is</strong> the system. The economy is designed to convert raw materials into waste as quickly as possible. The faster the turnover, the higher the GDP. The more packaging, the more jobs. The more planned obsolescence, the more consumption. The waste is not a failure of the system. It is the system's intended output.
+</p>
+<p>
+And the aquifers are being pumped dry. The Ogallala in the US, the North China Plain, the Ganges in India — all being extracted faster than rain can refill them. Groundwater is not renewable on human timescales. Once depleted, it is gone. The agriculture that feeds 8 billion people depends on water that is being withdrawn at 85%, 92%, 88% of sustainable rates. When the aquifers fail, the food system fails. When the food system fails, the camp reveals its true nature.
+</p>
+<p>
+To feed 8 billion people, industrial fishing fleets have overexploited a third of the world's fish stocks. The ocean ecosystem is being dismantled by trawlers that scrape the seafloor bare, by longlines that kill seabirds and turtles as bycatch, by plastic that mimics food and fills the stomachs of whales until they starve. The ocean produces half the oxygen you breathe. We are killing the organism that keeps us alive while we harvest its inhabitants to extinction.
+</p>
+
+<hr>
+
+<h2>VIII. The Truth</h2>
+<p>
+We are not "straining" the planet. We are consuming it.
+</p>
+<p>
+We are not "facing challenges." We are the challenge.
+</p>
+<p>
+The concentration camp is not around us. It is us.
+</p>
+<p>
+Every purchase is a vote for the system. Every shower is a chemical exposure. Every meal is a resource extraction. Every commute is an emission. Every medication is a water contamination event waiting to happen. We are not trapped in the camp by force. We are trapped by the impossibility of exiting without starving, freezing, or being medically abandoned. The camp is total. It encompasses every need and every solution. You cannot opt out of the water system. You cannot opt out of the food system. You cannot opt out of the medical system. You can only consume slightly different products within the same toxic framework and call it "conscious living."
+</p>
+<p>
+The 73% wildlife collapse, the 96% biomass concentration, the 47 water contaminants, the 16 industrial catastrophes, the 33 billion tons of CO₂, the 3.8 billion tonnes of annual waste, the depleted aquifers, the overfished oceans — these are not separate crises. They are <strong>symptoms of a single disease</strong>: the industrial extraction of the planet's living systems for the temporary comfort of one species, which is now poisoning itself in the process.
+</p>
+<p>
+The guard and the inmate are the same person. The weapon and the wound are the same product. The camp is not a place. It is a mode of being. And 8 billion people are living it right now, most of them too busy surviving to notice they are both the prisoners and the machinery of their own confinement.
+</p>
+
+<hr>
+
+<div class="quote" style="text-align: center; border-left: none; font-size: 1.3em;">
+The camp has no fences.<br>
+<strong>It is us.</strong>
+</div>
+
+<footer>
+<p><em>Written with the hope that we see clearly, before it is too late.</em></p>
+</footer>
+
+<p class="disclaimer">
+<small>Disclaimer: These ideas are offered freely. Take what resonates, question what doesn't, and build your own path.</small>
+</p>
+</div>`;
+
+    // Build IE browser HTML with both languages
+    function buildIeContent(contentEs, contentEn) {
+      return `
+<div class="ie-browser">
+  <div class="ie-address-bar">
+    <button>←</button>
+    <button>→</button>
+    <button>▼</button>
+    <label>Address</label>
+    <div class="address-field">https://the-camp.manifesto</div>
+    <button>↻</button>
+    <button>▶</button>
+  </div>
+  <div class="ie-toolbar">
+    <button>
+      <span style="font-size:16px; color:#c4a000;">★</span>
+      <span>Favorites</span>
+    </button>
+    <div class="divider"></div>
+    <button>Tools ▼</button>
+    <button>Help ▼</button>
+  </div>
+  <div class="ie-tabs">
+    <div class="ie-tab active">
+      <span>🌐</span>
+      <span>The Camp - Home</span>
+      <span class="close-tab">×</span>
+    </div>
+    <div class="ie-tab">
+      <span>🌐</span>
+      <span>About</span>
+      <span class="close-tab">×</span>
+    </div>
+  </div>
+  <div class="ie-content" id="ie-content-area">
+    ${contentEs}
+    ${contentEn}
+  </div>
+  <div class="ie-status-bar">
+    <div class="status-left">Done</div>
+    <div class="status-right">
+      <span>Internet | Protected Mode: On</span>
+      <span>100%</span>
+    </div>
+  </div>
+</div>`;
+    }
+
+    // Current language state
+    let currentLang = 'es';
+
+    function openWindow(title, content) {
+      const id = 'win-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
+      const html = `
+        <div class="window" id="${id}" style="display:block; top:5%; left:15%;">
+          <div class="title-bar">
+            <div class="title-bar-title">${title}</div>
+            <div class="title-bar-close" onclick="$('#${id}').remove()"></div>
+            <div class="title-bar-max" onclick="$('#${id}').css({width:'100%',height:'calc(100% - 30px)',top:0,left:0}); $('#${id} .title-bar').css('width','100%'); $('#${id} .content').css({width:'calc(100% - 4px)',height:'calc(100% - 35px)'});"></div>
+            <div class="title-bar-min" onclick="$('#${id}').hide();"></div>
+          </div>
+          <div class="content">${content}</div>
+          <div class="resize-n"></div>
+          <div class="resize-e"></div>
+          <div class="resize-s"></div>
+          <div class="resize-w"></div>
+          <div class="resize-ne"></div>
+          <div class="resize-nw"></div>
+          <div class="resize-se"></div>
+          <div class="resize-sw"></div>
+        </div>
+      `;
+      $('#windows-container').append(html);
+
+      $('.window').css('z-index', 100);
+      $('#' + id).css('z-index', 101);
+
+      // No need to attach handlers here - we use global event delegation below
+    }
+
+    function switchLanguage(lang, winId) {
+      const win = $('#' + winId);
+      const contentArea = win.find('#ie-content-area');
+
+      if (lang === 'es') {
+        contentArea.find('#essay-es').show();
+        contentArea.find('#essay-en').hide();
+        // Update all Spanish flags in this window to active
+        contentArea.find('#web-flag-es, #web-flag-en-es').addClass('active');
+        contentArea.find('#web-flag-gb, #web-flag-en-gb').removeClass('active');
+        win.find('.title-bar-title').text('Internet Explorer - El Campamento');
+      } else {
+        contentArea.find('#essay-es').hide();
+        contentArea.find('#essay-en').show();
+        // Update all English flags in this window to active
+        contentArea.find('#web-flag-gb, #web-flag-en-gb').addClass('active');
+        contentArea.find('#web-flag-es, #web-flag-en-es').removeClass('active');
+        win.find('.title-bar-title').text('Internet Explorer - The Camp');
+      }
+      currentLang = lang;
+    }
+
+    // Global event delegation for language flags - works on dynamically created elements
+    $(document).on('click', '.web-lang-flag', function(e) {
+      e.stopPropagation(); // Prevent drag/resize from triggering
+      const lang = $(this).data('lang');
+      // Find the closest window container
+      const win = $(this).closest('.window');
+      if (win.length) {
+        const winId = win.attr('id');
+        switchLanguage(lang, winId);
+      }
+    });
+
+    $('#ie-icon').on('click', function() {
+      const ieContent = buildIeContent(spanishHtml, englishHtml);
+      openWindow('Internet Explorer - El Campamento', ieContent);
+    });
+
+    $(document).ready(function() {
+      const ieContent = buildIeContent(spanishHtml, englishHtml);
+      openWindow('Internet Explorer - El Campamento', ieContent);
+    });
+
+    var mouseIsDown = false,
+        offsetX = 10,
+        offsetY = 10,
+        resizeDir = false,
+        minWidth = 200,
+        minHeight = 200,
+        activeWindow = null;
+
+    $(document).on("mousedown", ".title-bar, .resize-s, .resize-se, .resize-e, .resize-w, .resize-n, .resize-sw, .resize-nw, .resize-ne", function(e) {
+      if($(e.target).hasClass('title-bar-close') || $(e.target).hasClass('title-bar-max') || $(e.target).hasClass('title-bar-min')) return;
+
+      offsetX = e.offsetX;
+      offsetY = e.offsetY;
+      mouseIsDown = true;
+      resizeDir = $(e.target).attr("class");
+      activeWindow = $(e.target).closest(".window");
+
+      $('.window').css('z-index', 100);
+      activeWindow.css('z-index', 101);
+    });
+
+    $(window).mouseup(function(e) {
+      mouseIsDown = false;
+    });
+
+    $(window).mousemove(function(e) {
+      if (mouseIsDown && activeWindow) {
+        var newWidth, newHeight, newX, newY;
+        var winOffset = activeWindow.offset();
+        var winWidth = activeWindow.width();
+        var winHeight = activeWindow.height();
+
+        if (resizeDir === "title-bar") {
+          newX = e.pageX - offsetX;
+          newY = e.pageY - offsetY;
+
+          if(newY < 0) newY = 0;
+          if(newY > $(window).height() - 50) newY = $(window).height() - 50;
+          if(newX < -winWidth + 50) newX = -winWidth + 50;
+          if(newX > $(window).width() - 50) newX = $(window).width() - 50;
+
+          activeWindow.css({ left: newX, top: newY });
+        } else {
+          if (resizeDir.indexOf("e") > -1) {
+            newWidth = e.pageX - winOffset.left;
+            if (newWidth < minWidth) newWidth = minWidth;
+          }
+          if (resizeDir.indexOf("s") > -1) {
+            newHeight = e.pageY - winOffset.top;
+            if (newHeight < minHeight) newHeight = minHeight;
+          }
+          if (resizeDir.indexOf("w") > -1) {
+            newWidth = winWidth + (winOffset.left - e.pageX);
+            newX = e.pageX;
+            if (newWidth < minWidth) {
+              newWidth = minWidth;
+              newX = winOffset.left;
+            }
+          }
+          if (resizeDir.indexOf("n") > -1) {
+            newHeight = winHeight + (winOffset.top - e.pageY);
+            newY = e.pageY;
+            if (newHeight < minHeight) {
+              newHeight = minHeight;
+              newY = winOffset.top;
+            }
+          }
+
+          if (newWidth) {
+            activeWindow.find(".title-bar").css({ width: newWidth });
+            activeWindow.find(".content").css({ width: newWidth - 4 });
+            activeWindow.css({ width: newWidth });
+          }
+          if (newHeight) {
+            activeWindow.find(".content").css({ height: newHeight - 35 });
+            activeWindow.css({ height: newHeight });
+          }
+          if (newX !== undefined) activeWindow.css({ left: newX });
+          if (newY !== undefined) activeWindow.css({ top: newY });
+
+          activeWindow.find(".resize-e, .resize-w").css({ height: winHeight - 10 });
+          activeWindow.find(".resize-s, .resize-n").css({ width: winWidth - 10 });
+        }
+      }
+    });
+
+    $(window).resize(function() {
+      var screenW = $(window).width();
+      var screenH = $(window).height();
+      $('.window').each(function() {
+        var $win = $(this);
+        var pos = $win.offset();
+        var w = $win.width();
+        var h = $win.height();
+        if(pos.left + w > screenW) {
+          $win.css('left', Math.max(0, screenW - w - 10));
+        }
+        if(pos.top + h > screenH) {
+          $win.css('top', Math.max(0, screenH - h - 40));
+        }
+      });
+    });
 </script>
 
 </body>
